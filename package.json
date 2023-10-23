@@ -1,0 +1,23 @@
+{
+  "name": "simpleecom",
+  "version": "1.0.0",
+  "description": "A Simple E-commerce Website where you can try out the product creation and payment using stripe.com",
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "keywords": [
+    "payment",
+    "commerce",
+    "mongodb"
+  ],
+  "author": "Kyaw Zin Thiha",
+  "license": "MIT",
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^15.0.2",
+    "prettier": "^3.0.3"
+  },
+  "lint-staged": {
+    "*.{ts,sss,md}": "prettier --write"
+  }
+}
