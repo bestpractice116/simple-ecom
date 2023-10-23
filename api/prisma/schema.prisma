@@ -22,9 +22,19 @@ model Item {
   updatedAt   DateTime @updatedAt
 }
 
+enum STATUS {
+  CREATED
+  PAID
+}
+
 model Order {
   id        String   @id @default(cuid()) @map("_id")
+  name      String?
+  email     String?
   itemId    String
+  status    STATUS   @default(CREATED)
+  quantity  Int?
+  total     Float?
   item      Item     @relation(fields: [itemId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
