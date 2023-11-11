@@ -7,7 +7,9 @@ import * as cookieParser from "cookie-parser";
 import * as compression from "compression";
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    rawBody: true
+  });
 
   const config = app.get<ConfigServiceType>(ConfigService);
 
@@ -16,7 +18,7 @@ async function bootstrap() {
     credentials: true
   });
   app.use(helmet());
-  app.use(cookieParser());
+  app.use(cookieParser(config.get("COOKIE_SECRET")));
   app.use(compression());
 
   const PORT = config.get("PORT") | 3001;

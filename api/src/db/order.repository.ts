@@ -80,7 +80,7 @@ export class OrderRepository {
     }
   }
 
-  async updateStatus(id: string, status: STATUS): Promise<[OrderDto, ErrorDto]> {
+  async updateStatus(id: string, status: STATUS): Promise<[OrderDetailDto, ErrorDto]> {
     try {
       const order = await this.prisma.order.update({
         where: {
@@ -88,6 +88,9 @@ export class OrderRepository {
         },
         data: {
           status
+        },
+        include: {
+          item: true
         }
       });
 

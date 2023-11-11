@@ -16,7 +16,7 @@ export class MailService {
         to,
         from: {
           email: this.configService.get("SENDGRID_FROM_EMAIL"),
-          name: "NestJS Starter"
+          name: this.configService.get("SENDGRID_FROM_NAME")
         },
         templateId: this.configService.get("SENDGRID_TEMPLATE"),
         dynamicTemplateData: data
@@ -26,6 +26,7 @@ export class MailService {
       return null;
     } catch (error) {
       console.log(error);
+      console.log(error.response.body);
       return { message: error.message, status: 500 };
     }
   }

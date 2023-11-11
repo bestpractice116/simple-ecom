@@ -37,10 +37,10 @@ export class StripeService {
       line_items: [
         {
           price_data: {
-            currency: "gpb",
+            currency: "gbp",
             product_data: {
               name: item.name,
-              description: item.description,
+              description: "A delicious pizza",
               images: [item.image]
             },
             unit_amount: item.price * 100
@@ -68,15 +68,12 @@ export class StripeService {
     return session.url;
   }
 
-  verifyStripeWebhookSignature(body: any, signature: string): [any | null, null | string] {
+  verifyStripeWebhookSignature(body: any, signature: string): StripeType.Event {
     try {
-
-
-      const event = this.stripe.webhooks.constructEvent(body, signature, this.configService.get("STRIPE_WEBHOOK_SECRET"));
-
-      return [event, null];
+      return this.stripe.webhooks.constructEvent(body, signature, this.configService.get("STRIPE_WEBHOOK_SECRET"));
     } catch (error) {
-      return [null, "Error verifying stripe webhook signature"];
+      console.log(error);
+      throw new HttpException("Stripe Webhook Error", 400);
     }
   }
 
@@ -92,7 +89,7 @@ export class StripeService {
     return;
   }
 
-  async handlePaymentIntentSucceeded(orderId: string, recipient: string) {
+  async handlePaymentIntentSucceeded(orderId: string, recipient: string, total: number) {
     const [order, dbError] = await this.order.updateStatus(orderId, "PAID");
 
     if (dbError) {
@@ -103,7 +100,20 @@ export class StripeService {
       recipient = order.email;
     }
 
-    //await this.mail.sendOrderConfirmation(recipient, order.id, order.item.name, order.quantity, order.total);
+    if (order.total && order.total !== 0) {
+      total = order.total;
+    }
+
+    const data = {
+      subject: "Order Confirmation",
+      image: order.item.image,
+      item: order.item.name,
+      price: order.item.price.toString(),
+      total: total.toString()
+    };
+
+    await this.mail.sendEmail(recipient, data);
+
     return;
   }
 

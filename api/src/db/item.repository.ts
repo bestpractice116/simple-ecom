@@ -14,12 +14,13 @@ export class ItemRepository {
           name: name,
           description: description,
           image: image,
-          price: price
+          price: parseFloat(price.toString())
         }
       });
 
       return [item, null];
     } catch (error) {
+      console.log(error);
       return [null, { message: "Internal Server Error", status: 500 }];
     }
   }
@@ -60,6 +61,20 @@ export class ItemRepository {
       return [items, null];
     } catch (error) {
       return [null, { message: "Internal Server Error", status: 500 }];
+    }
+  }
+
+  async delete(id: string): Promise<ErrorDto> {
+    try {
+      await this.prisma.item.delete({
+        where: {
+          id
+        }
+      });
+
+      return null;
+    } catch (error) {
+      return { message: "Internal Server Error", status: 500 };
     }
   }
 }

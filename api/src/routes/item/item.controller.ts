@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   MaxFileSizeValidator,
   Param,
@@ -34,5 +35,10 @@ export class ItemController {
     price: number
   }, @UploadedFile(new ParseFilePipe({ validators: [new MaxFileSizeValidator({ maxSize: 5242880 })] })) image: Express.Multer.File) {
     return await this.item.addNewItem(data.name, data.description, image, data.price);
+  }
+
+  @Delete("/delete/:id")
+  async deleteItem(@Param("id") id: string) {
+    return await this.item.deleteItem(id);
   }
 }

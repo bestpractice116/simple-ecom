@@ -10,11 +10,11 @@ export class StorageService {
 
   constructor(private readonly configService: ConfigService) {
     this.s3Client = new S3Client({
-      region: configService.get("CLOUDFLARE_REGION"),
-      endpoint: configService.get("CLOUDFLARE_ENDPOINT"),
+      region: configService.get("CLOUDFLARE_R2_REGION"),
+      endpoint: configService.get("CLOUDFLARE_R2_ENDPOINT"),
       credentials: {
-        accessKeyId: configService.get("CLOUDFLARE_ACCESS_KEY_ID"),
-        secretAccessKey: configService.get("CLOUDFLARE_SECRET_ACCESS_KEY")
+        accessKeyId: configService.get("CLOUDFLARE_R2_ACCESS_KEY"),
+        secretAccessKey: configService.get("CLOUDFLARE_R2_SECRET_KEY")
       }
     });
   }
@@ -22,13 +22,13 @@ export class StorageService {
   async uploadString(filename: string, data: string, type: string): Promise<[string | null, ErrorDto]> {
     try {
       const param = {
-        Bucket: this.configService.get("CLOUDFLARE_BUCKET"),
+        Bucket: this.configService.get("CLOUDFLARE_R2_BUCKET"),
         Key: `SEC/${filename}`,
         Body: data,
         ContentType: type
       };
       await this.s3Client.send(new PutObjectCommand(param));
-      return [`${this.configService.get("CLOUDFLARE_PUBLIC_DOMAIN")}/${filename}`, null];
+      return [`${this.configService.get("CLOUDFLARE_R2_PUBLIC_DOMAIN")}/${filename}`, null];
     } catch (error) {
       return [null, { message: "Internal Server Error", status: 500 }];
     }
@@ -36,14 +36,15 @@ export class StorageService {
 
   async uploadFile(filename: string, data: Express.Multer.File): Promise<[string | null, ErrorDto]> {
     try {
+      const project = this.configService.get("CLOUDFLARE_R2_PROJECT");
       const param = {
-        Bucket: this.configService.get("CLOUDFLARE_BUCKET"),
-        Key: `SEC/${filename}`,
+        Bucket: this.configService.get("CLOUDFLARE_R2_BUCKET"),
+        Key: `${project}/${filename}`,
         Body: data.buffer
       };
 
       await this.s3Client.send(new PutObjectCommand(param));
-      return [`${this.configService.get("CLOUDFLARE_PUBLIC_DOMAIN")}/${filename}`, null];
+      return [`${this.configService.get("CLOUDFLARE_R2_PUBLIC_DOMAIN")}/${project}/${filename}`, null];
     } catch (error) {
       return [null, { message: "Internal Server Error", status: 500 }];
     }
@@ -53,7 +54,7 @@ export class StorageService {
     try {
       const filename = url.split("/").slice(-1)[0];
       const param = {
-        Bucket: this.configService.get("CLOUDFLARE_BUCKET"),
+        Bucket: this.configService.get("CLOUDFLARE_R2_BUCKET"),
         Key: filename
       };
 

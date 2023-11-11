@@ -16,7 +16,7 @@ model Item {
   name        String
   description String?
   image       String?
-  price       Int
+  price       Float
   orders      Order[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

@@ -42,4 +42,12 @@ export class ItemService {
 
     return item;
   }
+
+  async deleteItem(id: string) {
+    const dbError = await this.itemRepo.delete(id);
+
+    if (dbError) {
+      throw new HttpException(dbError.message, dbError.status);
+    }
+  }
 }
