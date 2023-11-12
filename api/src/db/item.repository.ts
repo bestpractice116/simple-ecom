@@ -20,7 +20,6 @@ export class ItemRepository {
 
       return [item, null];
     } catch (error) {
-      console.log(error);
       return [null, { message: "Internal Server Error", status: 500 }];
     }
   }
