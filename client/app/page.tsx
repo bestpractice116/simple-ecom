@@ -27,7 +27,7 @@ export default async function Page() {
     <div className="container">
       <div className="items">
         {
-          items.map((item: any) => (
+          items?.map((item: any) => (
             <ItemCard key={item.id} item={item} />
           ))
         }
