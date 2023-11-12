@@ -3,6 +3,7 @@ import { DeleteObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { ErrorDto } from "../types/error.dto";
+import { randomStringGenerator } from "@nestjs/common/utils/random-string-generator.util";
 
 @Injectable()
 export class StorageService {
@@ -36,15 +37,16 @@ export class StorageService {
 
   async uploadFile(filename: string, data: Express.Multer.File): Promise<[string | null, ErrorDto]> {
     try {
+      const randomKey = randomStringGenerator();
       const project = this.configService.get("CLOUDFLARE_R2_PROJECT");
       const param = {
         Bucket: this.configService.get("CLOUDFLARE_R2_BUCKET"),
-        Key: `${project}/${filename}`,
+        Key: `${project}/${randomKey}`,
         Body: data.buffer
       };
 
       await this.s3Client.send(new PutObjectCommand(param));
-      return [`${this.configService.get("CLOUDFLARE_R2_PUBLIC_DOMAIN")}/${project}/${filename}`, null];
+      return [`${this.configService.get("CLOUDFLARE_R2_PUBLIC_DOMAIN")}/${project}/${randomKey}`, null];
     } catch (error) {
       return [null, { message: "Internal Server Error", status: 500 }];
     }

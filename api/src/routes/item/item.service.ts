@@ -11,12 +11,14 @@ export class ItemService {
     const [imageURl, storageError] = await this.storage.uploadFile(image.originalname.replace(/\s/g, "-"), image);
 
     if (storageError) {
+      console.log("image error");
       throw new HttpException(storageError.message, storageError.status);
     }
 
     const [item, dbError] = await this.itemRepo.create(name, description, imageURl, price);
 
     if (dbError) {
+      console.log("db error");
       throw new HttpException(dbError.message, dbError.status);
     }
 

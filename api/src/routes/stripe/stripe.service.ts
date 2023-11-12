@@ -40,7 +40,7 @@ export class StripeService {
             currency: "gbp",
             product_data: {
               name: item.name,
-              description: "A delicious pizza",
+              description: item.description ? item.description : "Sample Item Description",
               images: [item.image]
             },
             unit_amount: item.price * 100
@@ -64,7 +64,6 @@ export class StripeService {
       success_url: `${this.configService.get("STRIPE_SUCCESS_URL")}`,
       cancel_url: `${this.configService.get("STRIPE_CANCEL_URL")}`
     });
-
     return session.url;
   }
 

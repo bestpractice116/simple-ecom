@@ -1,8 +1,83 @@
 .item-card {
   width: 300px;
-  height: 300px;
-  background: orange;
-  padding: 10px;
+  height: 310px;
   border-radius: 10px;
-  box-shadow: 0px 1px 3px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 1px 3px 5px rgba(197, 197, 197, 0.2);
+  overflow: hidden;
+
+  @media screen and (max-width: 568px) {
+    width: 100%;
+    height: auto;
+  }
+
+  &__header {
+    width: 100%;
+    height: 150px;
+    max-height: 150px;
+    overflow: hidden;
+
+    @media screen and (max-width: 568px) {
+      height: auto;
+    }
+
+    .image {
+      width: 100%;
+      height: 100%;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        aspect-ratio: 16/9;
+      }
+    }
+  }
+
+  &__body {
+    width: 100%;
+    height: 100px;
+    padding: 5px 10px;
+
+    .title {
+      text-align: center;
+    }
+
+    .description {
+      text-align: left;
+      font-size: 14px;
+    }
+
+    .price {
+      text-align: left;
+      font-size: 14px;
+    }
+  }
+
+  &__footer {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .checkout {
+      width: 80%;
+      height: auto;
+      border-radius: 10px;
+      background: #D2E59F;
+
+      button {
+        width: 100%;
+        height: 100%;
+        padding: 10px 20px;
+        border: none;
+        outline: none;
+        background: none;
+        letter-spacing: 1px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+    }
+  }
 }
