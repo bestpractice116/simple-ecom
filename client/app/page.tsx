@@ -10,14 +10,10 @@ const getItems = async () => {
       cache: "no-cache"
     });
 
-    console.log(response.status);
     if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-      return data;
+      return await response.json();
     }
   } catch (error) {
-    console.log(error);
     return [];
   }
 };
