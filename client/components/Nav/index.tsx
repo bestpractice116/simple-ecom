@@ -64,7 +64,12 @@ const createItem = async (data: FormData) => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/item/add-new`, {
     method: "POST",
     body: data,
-    credentials: "include"
+    headers: {
+      "Accept": "application/json"
+    },
+    credentials: "include",
+    cache: "no-cache",
+    mode: "cors"
   });
 
   return response.ok;

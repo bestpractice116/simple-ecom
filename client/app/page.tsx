@@ -7,7 +7,8 @@ const getItems = async () => {
       headers: {
         "Content-Type": "application/json"
       },
-      cache: "no-cache"
+      cache: "no-cache",
+      mode: "cors"
     });
 
     if (response.ok) {
