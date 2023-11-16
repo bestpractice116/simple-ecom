@@ -220,7 +220,7 @@ function NewItemModal({ open, handleClose }: {
         <Button size="small" component="label" variant="contained" startIcon={<CloudUploadIcon />}
                 sx={{ marginTop: "10px" }}>
           Upload Image
-          <VisuallyHiddenInput type="file" accept="image/png, image/jepg, image/jpg" name="image" onChange={onChange} />
+          <VisuallyHiddenInput type="file" accept="image/png, image/jpeg, image/jpg" name="image" onChange={onChange} />
         </Button>
       </DialogContent>
       <DialogContent>
