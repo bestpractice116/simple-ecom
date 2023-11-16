@@ -15,6 +15,7 @@ async function bootstrap() {
 
   app.enableCors({
     origin: config.get("CLIENT_URL"),
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true
   });
   app.use(helmet());
