@@ -6,6 +6,9 @@ import { ItemModule } from "./routes/item/item.module";
 import { StripeModule } from "./routes/stripe/stripe.module";
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), DbModule, HelperModule, ItemModule, StripeModule]
+  imports: [ConfigModule.forRoot({
+    isGlobal: true,
+    envFilePath: "/etc/secrets/.env"
+  }), DbModule, HelperModule, ItemModule, StripeModule]
 })
 export class AppModule {}
