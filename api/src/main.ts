@@ -14,10 +14,7 @@ async function bootstrap() {
   const config = app.get<ConfigServiceType>(ConfigService);
 
   app.enableCors({
-    origin: config.get("CLIENT_URL"),
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    allowedHeaders: "Content-Type, Accept",
-    credentials: true
+    origin: "*"
   });
   console.log(config.get("CLIENT_URL"));
   app.use(helmet());
