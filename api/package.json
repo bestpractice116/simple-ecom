@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "nest build",
+    "install": "npm install",
     "postinstall": "prisma generate",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",

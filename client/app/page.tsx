@@ -10,11 +10,11 @@ const getItems = async () => {
       cache: "no-cache",
       mode: "cors"
     });
-
     if (response.ok) {
       return await response.json();
     }
   } catch (error) {
+    console.log(error);
     return [];
   }
 };
